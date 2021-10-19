@@ -30,11 +30,6 @@ ura.set("Write URL here")
 urll = Entry(fenetre, textvariable=ura, width=50)
 urll.pack()
 
-message = StringVar()
-message.set("Write message here")
-messagee = Entry(fenetre, textvariable=message, width=50)
-messagee.pack()
-
 username = StringVar()
 username.set("Write username here")
 usernamee = Entry(fenetre, textvariable=username, width=50)
@@ -76,12 +71,12 @@ footerr2 = Entry(fenetre, textvariable=footer2, width=50)
 footerr2.pack()
 
 field = StringVar()
-field.set("Write field here")
+field.set("Write field Name")
 fieldd = Entry(fenetre, textvariable=field, width=50)
 fieldd.pack()
 
 field2 = StringVar()
-field2.set("Write field here")
+field2.set("Write field Text here")
 fieldd2 = Entry(fenetre, textvariable=field2, width=50)
 fieldd2.pack()
 
@@ -90,103 +85,72 @@ avatar.set("Avatar Path")
 fieldd2 = tk.Entry(fenetre, textvariable=avatar, width=50)
 fieldd2.pack()
 
+description = tk.StringVar()
+description.set("Write description here")
+descriptionn= tk.Entry(fenetre, textvariable=description, width=50)
+descriptionn.pack()
+
+nameWebhook = tk.StringVar()
+nameWebhook.set("Write Webhook name here")
+nameWebhookk= tk.Entry(fenetre, textvariable=nameWebhook, width=50)
+nameWebhookk.pack()
+
 booton2 = Button(text ="Choose a avatar file", command=file_path)
 booton2.pack()
 
 
-def getURL():
-    global link
-    link=ura.get()
-    #https://discord.com/api/webhooks/898286370693472296/nujOOXcKGvMwFa7VR2-GU8IF84oye2DwXe3f83J9G7W2LZ5TDKHTfqcaxdFpHnRYqbUB
 
 
-def getUsername():
-    global uname
-    uname=username.get()
+link=ura.get()
+#https://discord.com/api/webhooks/898286370693472296/nujOOXcKGvMwFa7VR2-GU8IF84oye2DwXe3f83J9G7W2LZ5TDKHTfqcaxdFpHnRYqbUB
 
+uname=username.get()
 
-def getMessage():
-    global mess
-    mess=message.get()
+thum=thumbnail.get()
 
+imag=image.get()
 
-def getThumbnail():
-    global thum
-    thum=thumbnail.get()
+auth=author.get()
 
+auth2=author2.get()
 
-def getImage():
-    global imag
-    imag=image.get()
+auth3=author3.get()
 
+foot=footer.get()
 
-def getAuthor():
-    global auth
-    auth=message.get()
+foot2=footer2.get()
 
+fiel=field.get()
 
-def getAuthor2():
-    global auth2
-    auth2=message.get()
+fiel2=field2.get()
 
+avat=avatar.get()
 
-def getAuthor3():
-    global auth3
-    auth3=message.get()
+desc=description.get()
 
-
-def getFooter():
-    global foot
-    foot=message.get()
-
-
-def getFooter2():
-    global foot2
-    foot2=message.get()
-    
-
-def getField():
-    global fiel
-    fiel=message.get()
-
-
-def getField2():
-    global fiel2
-    fiel2=message.get()
-
-
-def getAvatar():
-    global avat
-    avat=message.get()
+Wname=nameWebhook.get()
 
 
 
 
 def WebhookSender():
-    hook = Webhook('{}'.format(ura))
+    hook = Webhook('{}'.format(link))
 
     embed = Embed(
-        description='This is the **description** of the embed! :smiley:',
+        description='{}'.format(desc),
         color=0x5CDBF0,
-        timestamp='now'  # sets the timestamp to current time
+        timestamp='now'
         )
 
-    image1 = 'https://i.imgur.com/rdm3W9t.png'
-    image2 = 'https://i.imgur.com/f1LOr4q.png'
-
-    with open('img.png') as f:
-        img = f.read()  # bytes
-
-    hook.modify(name='Bob', avatar=img)
+    hook.modify(name='{}'.format(Wname), avatar=avat)
 
 
-    embed.set_author(name='Author Goes Here', icon_url=image1)
-    embed.add_field(name='Test Field', value='Value of the field :open_mouth:')
-    embed.add_field(name='Another Field', value='1234 :smile:')
-    embed.set_footer(text='Here is my footer text', icon_url=image1)
+    embed.set_author(name='{}'.format(auth), icon_url=auth3)
+    embed.add_field(name='{}'.format(fiel), value='{}'.format(fiel2))
+    embed.set_footer(text='{}'.format(foot), icon_url=foot2)
 
-    embed.set_thumbnail(image1)
-    embed.set_image(image2)
+    embed.set_thumbnail(thum)
+    embed.set_image(imag)
 
     hook.send(embed=embed)
 
