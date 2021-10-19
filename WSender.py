@@ -1,9 +1,11 @@
 import os
 from tkinter import * 
 from tkinter import messagebox
+from tkinter import filedialog
+import tkinter as tk
 import requests
 from requests.api import get
-from discord_webhooks import DiscordWebhooks
+from dhooks import Webhook, Embed
 
 fenetre = Tk()
 
@@ -16,7 +18,7 @@ label.pack()
 maxchars_uname = 10
 
 ura = StringVar()
-ura.set("Write Webhook URL here")
+ura.set("Write URL here")
 urll = Entry(fenetre, textvariable=ura, width=50)
 urll.pack()
 
@@ -75,6 +77,14 @@ field2.set("Write field here")
 fieldd2 = Entry(fenetre, textvariable=field2, width=50)
 fieldd2.pack()
 
+avatar = StringVar()
+avatar.set("Avatar Path")
+fieldd2 = Entry(fenetre, textvariable=field2, width=50)
+fieldd2.pack()
+
+booton = Button(text ="Choose a avatar file", command=filedialog.askopenfilenames)
+booton.pack()
+
 
 def getURL():
     global link
@@ -92,41 +102,89 @@ def getMessage():
     mess=message.get()
 
 
-def erreur():
-    messagebox.showerror(title="Error", message="There is a error :\n\nEnter a valid webhook URL.")
+def getThumbnail():
+    global thum
+    thum=thumbnail.get()
 
-def envoye():
-    messagebox.showinfo(title="Sent !", message="Message sent !")
 
-def vide():
-    messagebox.showerror(title="Error", message="There is a error :\n\nThe message cannot be blank.")
+def getImage():
+    global imag
+    imag=image.get()
 
+
+def getAuthor():
+    global auth
+    auth=message.get()
+
+
+def getAuthor2():
+    global auth2
+    auth2=message.get()
+
+
+def getAuthor3():
+    global auth3
+    auth3=message.get()
+
+
+def getFooter():
+    global foot
+    foot=message.get()
+
+
+def getFooter2():
+    global foot2
+    foot2=message.get()
     
-# Webhook URL for your Discord channel.
-WEBHOOK_URL = '${link}'
 
-webhook = DiscordWebhooks(WEBHOOK_URL)
+def getField():
+    global fiel
+    fiel=message.get()
 
-webhook.set_content(content='The best cat ever is...', title='Montezuma!', description='Seriously!', \
-  url='http://github.com/JamesIves', color=0xF58CBA, timestamp='2018-11-09T04:10:42.039Z')
 
-# Attaches an image
-webhook.set_image(url='${imagee}')
+def getField2():
+    global fiel2
+    fiel2=message.get()
 
-# Attaches a thumbnail
-webhook.set_thumbnail(url='${thumbnaill}')
 
-# Attaches an author
-webhook.set_author(name='${authorr}', url='${authorr2}', icon_url='${authorr3}')
+def getAvatar():
+    global avat
+    avat=message.get()
 
-# Attaches a footer
-webhook.set_footer(text='${footerr}', icon_url='${footerr2}')
 
-# Appends a field
-webhook.add_field(name='${fieldd}', value='${fieldd2}')
 
-booton = Button(text ="Send !", command=webhook.send)
 
+
+hook = Webhook('url')
+
+embed = Embed(
+    description='This is the **description** of the embed! :smiley:',
+    color=0x5CDBF0,
+    timestamp='now'  # sets the timestamp to current time
+    )
+
+image1 = 'https://i.imgur.com/rdm3W9t.png'
+image2 = 'https://i.imgur.com/f1LOr4q.png'
+
+with open('img.png', rb) as f:
+    img = f.read()  # bytes
+
+hook.modify(name='Bob', avatar=img)
+
+
+embed.set_author(name='Author Goes Here', icon_url=image1)
+embed.add_field(name='Test Field', value='Value of the field :open_mouth:')
+embed.add_field(name='Another Field', value='1234 :smile:')
+embed.set_footer(text='Here is my footer text', icon_url=image1)
+
+embed.set_thumbnail(image1)
+embed.set_image(image2)
+
+hook.send(embed=embed)
+
+
+
+booton = Button(text ="Send !", command=filedialog.askopenfilenames)
 booton.pack()
 
 
