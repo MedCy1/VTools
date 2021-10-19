@@ -7,7 +7,9 @@ import requests
 from requests.api import get
 from dhooks import Webhook, Embed
 
-fenetre = Tk()
+
+fenetre = tk.Tk()
+fenetre.withdraw
 
 label = Label(fenetre, text="V'Sender")
 label.pack()
@@ -16,6 +18,12 @@ label.pack()
 
 
 maxchars_uname = 10
+
+def file_path():
+    global path
+    path = filedialog.askopenfilename()
+    print(path)
+    avatar.set("{}".format(path))
 
 ura = StringVar()
 ura.set("Write URL here")
@@ -77,13 +85,13 @@ field2.set("Write field here")
 fieldd2 = Entry(fenetre, textvariable=field2, width=50)
 fieldd2.pack()
 
-avatar = StringVar()
+avatar = tk.StringVar()
 avatar.set("Avatar Path")
-fieldd2 = Entry(fenetre, textvariable=field2, width=50)
+fieldd2 = tk.Entry(fenetre, textvariable=avatar, width=50)
 fieldd2.pack()
 
-booton = Button(text ="Choose a avatar file", command=filedialog.askopenfilenames)
-booton.pack()
+booton2 = Button(text ="Choose a avatar file", command=file_path)
+booton2.pack()
 
 
 def getURL():
@@ -154,38 +162,36 @@ def getAvatar():
 
 
 
+def WebhookSender():
+    hook = Webhook('{}'.format(ura))
 
-hook = Webhook('url')
+    embed = Embed(
+        description='This is the **description** of the embed! :smiley:',
+        color=0x5CDBF0,
+        timestamp='now'  # sets the timestamp to current time
+        )
 
-embed = Embed(
-    description='This is the **description** of the embed! :smiley:',
-    color=0x5CDBF0,
-    timestamp='now'  # sets the timestamp to current time
-    )
+    image1 = 'https://i.imgur.com/rdm3W9t.png'
+    image2 = 'https://i.imgur.com/f1LOr4q.png'
 
-image1 = 'https://i.imgur.com/rdm3W9t.png'
-image2 = 'https://i.imgur.com/f1LOr4q.png'
+    with open('img.png') as f:
+        img = f.read()  # bytes
 
-with open('img.png', rb) as f:
-    img = f.read()  # bytes
-
-hook.modify(name='Bob', avatar=img)
-
-
-embed.set_author(name='Author Goes Here', icon_url=image1)
-embed.add_field(name='Test Field', value='Value of the field :open_mouth:')
-embed.add_field(name='Another Field', value='1234 :smile:')
-embed.set_footer(text='Here is my footer text', icon_url=image1)
-
-embed.set_thumbnail(image1)
-embed.set_image(image2)
-
-hook.send(embed=embed)
+    hook.modify(name='Bob', avatar=img)
 
 
+    embed.set_author(name='Author Goes Here', icon_url=image1)
+    embed.add_field(name='Test Field', value='Value of the field :open_mouth:')
+    embed.add_field(name='Another Field', value='1234 :smile:')
+    embed.set_footer(text='Here is my footer text', icon_url=image1)
 
-booton = Button(text ="Send !", command=filedialog.askopenfilenames)
-booton.pack()
+    embed.set_thumbnail(image1)
+    embed.set_image(image2)
 
+    hook.send(embed=embed)
+
+
+SendBtn = Button(text ="Send !", command=WebhookSender)
+SendBtn.pack()
 
 fenetre.mainloop()
